@@ -4,8 +4,7 @@ import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/update-auth.dto';
 import { LoginDto } from './dto/create-auth.dto';
 
-
-@ApiTags('Auth') // Gắn tag Swagger cho nhóm Auth
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -26,10 +25,11 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
-  @Post('logout')
-  @ApiOperation({ summary: 'Logout a user' })
-  @ApiResponse({ status: 200, description: 'Logout successful' })
-  logout(@Body('userId') userId: string) {
-    return this.authService.logout(userId);
+  @Post('refresh-token')
+  @ApiOperation({ summary: 'Refresh access token' })
+  @ApiResponse({ status: 200, description: 'Access token refreshed successfully' })
+  @ApiResponse({ status: 401, description: 'Invalid refresh token' })
+  refreshToken(@Body('refreshToken') refreshToken: string) {
+    return this.authService.refreshToken(refreshToken);
   }
 }

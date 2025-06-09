@@ -1,20 +1,36 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import open from 'open'; // Changed from import * as open
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Cấu hình Swagger
+  // Swagger Configuration
   const config = new DocumentBuilder()
     .setTitle('API Documentation')
     .setDescription('API documentation for the deployed application')
     .setVersion('1.0')
-    .addBearerAuth() // Nếu sử dụng xác thực JWT
+    .addBearerAuth()
     .build();
+  
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document); // Đường dẫn Swagger UI là '/api'
+  SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  const port = process.env.PORT || 3000;
+  await app.listen(port);
+
+  try {
+    // Only open in development
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(`Swagger UI opened at http://localhost:${port}/api`);
+    }
+  } catch (error) {
+    console.error('Failed to open browser:', error);
+  }
 }
-bootstrap();
+
+bootstrap().catch(err => {
+  console.error('Failed to start application:', err);
+  process.exit(0);
+});
