@@ -12,6 +12,8 @@ async function bootstrap() {
       'http://localhost:3000',
       'http://localhost:3001',
       'https://deploy-p-3.onrender.com',
+      'https://my-user-management-one.vercel.app',
+      
       // Add other allowed origins here
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
