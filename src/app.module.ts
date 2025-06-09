@@ -13,7 +13,7 @@ import { AuthModule } from './auth/auth.module';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
-        const dbUrl = configService.get<string>(' ');
+        const dbUrl = configService.get<string>('DATABASE_URL');
         console.log('DATABASE_URL được tải:', dbUrl);
         return {
           type: 'mysql',
