@@ -6,6 +6,19 @@ import open from 'open'; // Changed from import * as open
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+
+  app.enableCors({
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'https://deploy-p-3.onrender.com',
+      // Add other allowed origins here
+    ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+    allowedHeaders: 'Content-Type, Accept, Authorization',
+  });
+
   // Swagger Configuration
   const config = new DocumentBuilder()
     .setTitle('API Documentation')
